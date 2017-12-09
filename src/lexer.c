@@ -32,7 +32,7 @@ void lexerInit(Stackc *sc, LexerState *lexer, const char *fileName, const char *
 	lexer->line = 1;
 }
 
-Token *lexerTokenize(Stackc *sc, ParserState *parser)
+Token **lexerTokenize(Stackc *sc, ParserState *parser)
 {
 	LexerState *lexer;
 	LexerToken token;
@@ -61,6 +61,7 @@ Token *lexerTokenize(Stackc *sc, ParserState *parser)
 		tokenCount++;
 	} while(token != TokenEOF);
 
+	return tokens;
 }
 
 LexerToken lexerGetToken(Stackc *sc, LexerState *lexer, Value *value)

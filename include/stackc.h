@@ -152,7 +152,7 @@ typedef struct Token
 
 void lexerInit(Stackc *sc, LexerState *lexer, const char *fileName, const char *sourceText, int sourceLength);
 
-Token *lexerTokenize(Stackc *sc, ParserState *parser);
+Token **lexerTokenize(Stackc *sc, ParserState *parser);
 
 LexerToken lexerGetToken(Stackc *sc, LexerState *lexer, Value *value);
 
