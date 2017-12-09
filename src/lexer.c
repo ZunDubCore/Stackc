@@ -36,6 +36,7 @@ Token *lexerTokenize(Stackc *sc, ParserState *parser)
 {
 	LexerState *lexer;
 	LexerToken token;
+	Value *value;
 	Token **tokens;
 	int initSize = 1024;
 	int tokenCount = 0;
@@ -51,15 +52,18 @@ Token *lexerTokenize(Stackc *sc, ParserState *parser)
 
 	do
 	{
-		token = lexerGetToken(sc, lexer);
-		tokens[tokenCount] = token;
+		value = malloc(sizeof(*value));
+		token = lexerGetToken(sc, lexer, value);
+
+		tokens[tokenCount]->token = token;
+		tokens[tokenCount]->value = value;
 
 		tokenCount++;
 	} while(token != TokenEOF);
 
 }
 
-LexerToken lexerGetToken(Stackc *sc, LexerState *lexer)
+LexerToken lexerGetToken(Stackc *sc, LexerState *lexer, Value *value)
 {
 	char thisChar;
 
@@ -86,18 +90,18 @@ LexerToken lexerGetToken(Stackc *sc, LexerState *lexer)
 
 	if (isCidstart(thisChar))
 	{
-		return lexerGetWord(sc, lexer);
+		return lexerGetWord(sc, lexer, value);
 	}
 
 	if (isdigit(thisChar))
 	{
-		return lexerGetNumber(sc, lexer);
+		return lexerGetNumber(sc, lexer, value);
 	}
 
 	return TokenEOF;
 }
 
-LexerToken lexerGetWord(Stackc *sc, LexerState *lexer)
+LexerToken lexerGetWord(Stackc *sc, LexerState *lexer, Value *value)
 {
 	const char *startPos = lexer->pos;
 	LexerToken token = TokenNone;
@@ -116,11 +120,12 @@ LexerToken lexerGetWord(Stackc *sc, LexerState *lexer)
 	word[len] = '\0';
 
 	token = lexerCheckReservedWord(sc, word);
+	value->word = word;
 
 	return token;
 }
 
-LexerToken lexerGetNumber(Stackc *sc, LexerState *lexer)
+LexerToken lexerGetNumber(Stackc *sc, LexerState *lexer, Value *value)
 {
 	int result = 0;
 	int base = 10;
@@ -156,7 +161,7 @@ LexerToken lexerGetNumber(Stackc *sc, LexerState *lexer)
 		result = result * base + GET_BASE_DIGIT(*lexer->pos);
 	}
 
-	__printf("number: %d\nbase: %d\n", result, base);
+	value->number = result;
 
 	return TokenNumber;
 }

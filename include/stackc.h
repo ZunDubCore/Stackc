@@ -154,11 +154,11 @@ void lexerInit(Stackc *sc, LexerState *lexer, const char *fileName, const char *
 
 Token *lexerTokenize(Stackc *sc, ParserState *parser);
 
-LexerToken lexerGetToken(Stackc *sc, LexerState *lexer);
+LexerToken lexerGetToken(Stackc *sc, LexerState *lexer, Value *value);
 
-LexerToken lexerGetWord(Stackc *sc, LexerState *lexer);
+LexerToken lexerGetWord(Stackc *sc, LexerState *lexer, Value *value);
 
-LexerToken lexerGetNumber(Stackc *sc, LexerState *lexer);
+LexerToken lexerGetNumber(Stackc *sc, LexerState *lexer, Value *value);
 
 LexerToken lexerCheckReservedWord(Stackc *sc, const char *word);
 
