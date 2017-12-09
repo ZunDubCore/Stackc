@@ -15,10 +15,13 @@ void parseFile(Stackc *sc, const char *fileName)
 
 	tokens = lexerTokenize(sc, parser);
 
-	
+
 }
 
 void parserInit(Stackc *sc, ParserState *parser, const char *sourceText, const char *fileName)
 {
-	// TODO
+	parser->fileName = fileName;
+	parser->sourceText = sourceText;
+	parser->sourceLength = strlen(sourceText);
+	parser->line = 1;
 }
