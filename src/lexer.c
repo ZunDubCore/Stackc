@@ -3,6 +3,10 @@
 #define isCidstart(c) (isalpha(c) || (c)=='_')
 #define isCident(c) (isalnum(c) || (c)=='_')
 
+#define IS_HEX_ALPHA_DIGIT(c) (((c) >= 'a' && (c) <= 'f') || ((c) >= 'A' && (c) <= 'F'))
+#define IS_BASE_DIGIT(c,b) (((c) >= '0' && (c) < '0' + (((b)<10)?(b):10)) || (((b) > 10) ? IS_HEX_ALPHA_DIGIT(c) : FALSE))
+#define GET_BASE_DIGIT(c) (((c) <= '9') ? ((c) - '0') : (((c) <= 'F') ? ((c) - 'A' + 10) : ((c) - 'a' + 10)))
+
 #define LEXER_INC(l) ( (l)->pos++ )
 
 typedef struct ReservedWord
@@ -94,12 +98,38 @@ LexerToken lexerGetNumber(Stackc *sc, LexerState *lexer)
 	int result = 0;
 	int base = 10;
 
-	for (; lexer->pos != lexer->end && isdigit(*lexer->pos); LEXER_INC(lexer))
+	/* Get the base */
+	if (*lexer->pos == '0')
 	{
-		result = result * base + (*lexer->pos - '0');
+		/* A binary, octal or hex literal */
+		LEXER_INC(lexer);
+
+		if (lexer->pos != lexer->end)
+		{
+			if (*lexer->pos == 'x' || *lexer->pos == 'X')
+			{
+				base = 16;
+				LEXER_INC(lexer);
+			}
+
+			else if (*lexer->pos == 'b' || *lexer->pos == 'B')
+			{
+				base = 2;
+				LEXER_INC(lexer);
+			}
+			else
+			{
+				base = 8;
+			}
+		}
 	}
 
-	__printf("number: %d\n", result);
+	for (; lexer->pos != lexer->end && IS_BASE_DIGIT(*lexer->pos, base); LEXER_INC(lexer))
+	{
+		result = result * base + GET_BASE_DIGIT(*lexer->pos);
+	}
+
+	__printf("number: %d\nbase: %d\n", result, base);
 
 	return TokenNumber;
 }
