@@ -3,6 +3,7 @@
 void parseFile(Stackc *sc, const char *fileName)
 {
 	char *source;
+	int length;
 	LexerToken token;
 	Token *tokens;
 	ParserState *parser;
@@ -11,17 +12,18 @@ void parseFile(Stackc *sc, const char *fileName)
 	sc->parser = parser;
 
 	source = readFile(sc, fileName);
-	parserInit(sc, sc->parser, source, fileName);
+	length = strlen(source);
+
+	parserInit(sc, sc->parser, fileName, source, length);
 
 	tokens = lexerTokenize(sc, parser);
 
-
 }
 
-void parserInit(Stackc *sc, ParserState *parser, const char *sourceText, const char *fileName)
+void parserInit(Stackc *sc, ParserState *parser, const char *fileName, const char *sourceText, int sourceLength)
 {
 	parser->fileName = fileName;
 	parser->sourceText = sourceText;
-	parser->sourceLength = strlen(sourceText);
+	parser->sourceLength = sourceLength;
 	parser->line = 1;
 }

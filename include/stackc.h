@@ -110,7 +110,7 @@ typedef struct ParserState
  */
 void parseFile(Stackc *sc, const char *fileName);
 
-void parserInit(Stackc *sc, ParserState *parser, const char *sourceText, const char *fileName);
+void parserInit(Stackc *sc, ParserState *parser, const char *sourceText, const char *fileName, int sourceLength);
 
 /********************************** lexer.c ***********************************/
 
@@ -150,7 +150,7 @@ typedef struct Token
 	Value *value;
 } Token;
 
-void lexerInit(Stackc *sc, LexerState *lexer, const char *sourceText, const char *fileName);
+void lexerInit(Stackc *sc, LexerState *lexer, const char *fileName, const char *sourceText, int sourceLength);
 
 Token *lexerTokenize(Stackc *sc, ParserState *parser);
 

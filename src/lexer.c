@@ -22,13 +22,13 @@ static ReservedWord reservedWords[] =
 	{"pop", TokenPop}
 };
 
-void lexerInit(Stackc *sc, LexerState *lexer, const char *sourceText, const char *fileName)
+void lexerInit(Stackc *sc, LexerState *lexer, const char *fileName, const char *sourceText, int sourceLength)
 {
 	lexer->fileName = fileName;
 	lexer->sourceText = sourceText;
-	lexer->sourceLength = strlen(sourceText);
+	lexer->sourceLength = sourceLength;
 	lexer->pos = sourceText;
-	lexer->end = sourceText + lexer->sourceLength;
+	lexer->end = sourceText + sourceLength;
 	lexer->line = 1;
 }
 
@@ -38,7 +38,7 @@ Token *lexerTokenize(Stackc *sc, ParserState *parser)
 	Token *tokens;
 
 	lexer = malloc(sizeof(*lexer));
-	lexerInit(sc, lexer, sourceText, fileName);
+	lexerInit(sc, lexer, parser->fileName, parser->sourceText, parser->sourceLength);
 
 }
 
