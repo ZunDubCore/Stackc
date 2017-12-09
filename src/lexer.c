@@ -35,10 +35,27 @@ void lexerInit(Stackc *sc, LexerState *lexer, const char *fileName, const char *
 Token *lexerTokenize(Stackc *sc, ParserState *parser)
 {
 	LexerState *lexer;
-	Token *tokens;
+	LexerToken token;
+	Token **tokens;
+	int initSize = 1024;
+	int tokenCount = 0;
+
+	tokens = malloc(initSize * sizeof(*tokens));
+	for (int i = 0; i < initSize; i++)
+	{
+        tokens[i] = malloc(sizeof(tokens));
+    }
 
 	lexer = malloc(sizeof(*lexer));
 	lexerInit(sc, lexer, parser->fileName, parser->sourceText, parser->sourceLength);
+
+	do
+	{
+		token = lexerGetToken(sc, lexer);
+		tokens[tokenCount] = token;
+
+		tokenCount++;
+	} while(token != TokenEOF);
 
 }
 
