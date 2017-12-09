@@ -1,6 +1,9 @@
 # Build dir
 build/
 
+# Doc dir
+doc/
+
 # doxygen config file
 default
 
