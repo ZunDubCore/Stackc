@@ -1,0 +1,13 @@
+# Build dir
+build/
+
+# doxygen config file
+default
+
+# stackdumps
+*.stackdump
+
+# Stackc test scripts
+*.s
+
+*.ct
