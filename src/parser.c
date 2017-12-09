@@ -4,6 +4,7 @@ void parseFile(Stackc *sc, const char *fileName)
 {
 	char *source;
 	LexerToken token;
+	Token *tokens;
 	ParserState *parser;
 
 	parser = malloc(sizeof(*parser));
@@ -12,18 +13,12 @@ void parseFile(Stackc *sc, const char *fileName)
 	source = readFile(sc, fileName);
 	parserInit(sc, sc->parser, source, fileName);
 
-	while ((token = lexerGetToken(sc, sc->parser->lexer)) != TokenEOF)
-	{
-		__printf("token %d\n", token);
-	}
+	tokens = lexerTokenize(sc, parser);
+
+	
 }
 
 void parserInit(Stackc *sc, ParserState *parser, const char *sourceText, const char *fileName)
 {
-	LexerState *lexer;
-
-	lexer = malloc(sizeof(*lexer));
-	parser->lexer = lexer;
-
-	lexerInit(sc, parser->lexer, sourceText, fileName);
+	// TODO
 }

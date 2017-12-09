@@ -22,7 +22,7 @@ int main(int argc, const char *argv[])
 
 void stackcInit(Stackc *sc)
 {
-
+	// TODO
 }
 
 void error(const char *errorMsg, ...)
