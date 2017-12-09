@@ -93,7 +93,7 @@ void error(const char *errorMsg, ...);
 
 typedef struct ParserState
 {
-	LexerState *lexer;
+
 } ParserState;
 
 /**
@@ -135,7 +135,21 @@ typedef enum LexerToken
 	TokenNone
 } LexerToken;
 
+typedef union Value
+{
+	int number;
+	char *word;
+}
+
+typedef struct Token
+{
+	LexerToken token;
+	Value *value;
+} Token;
+
 void lexerInit(Stackc *sc, LexerState *lexer, const char *sourceText, const char *fileName);
+
+Token *lexerTokenize(Stackc *sc, ParseState *parser)
 
 LexerToken lexerGetToken(Stackc *sc, LexerState *lexer);
 

@@ -32,6 +32,16 @@ void lexerInit(Stackc *sc, LexerState *lexer, const char *sourceText, const char
 	lexer->line = 1;
 }
 
+Token *lexerTokenize(Stackc *sc, ParseState *parser)
+{
+	LexerState *lexer;
+	Token *tokens;
+
+	lexer = malloc(sizeof(*lexer));
+	lexerInit(sc, lexer, sourceText, fileName);
+
+}
+
 LexerToken lexerGetToken(Stackc *sc, LexerState *lexer)
 {
 	char thisChar;
