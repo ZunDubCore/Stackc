@@ -47,6 +47,12 @@ sloccount:
 doc: docdir
 	doxygen default
 
+astyle:
+	astyle -t -b -C -S -K -N -w -f -F -p -U -n -v $(SOURCES) $(INCLUDES)
+
+correct-eol:
+	dos2unix $(PWD)/* $(SOURCES) $(INCLUDES) ||:
+
 docdir:
 	@$(mkdir) $(DOCDIR)
 
